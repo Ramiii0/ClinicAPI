@@ -4,13 +4,13 @@ namespace ClinicAPI.Dtos
 {
     public class SaveImage
     {
-        public async Task<string> HandleImage(IFormFile Image)
+        public async Task<string> HandleImage(IFormFile Image,string rootpath)
         {
             
             if (Image != null && Image.Length > 0)
             {
                 // Get the path to save the image
-                string uploadDir = Path.Combine("Images");
+                string uploadDir = Path.Combine(rootpath);
                 string timeStamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
 
                 string fileName = Guid.NewGuid().ToString() + timeStamp + "-" + Image.FileName;

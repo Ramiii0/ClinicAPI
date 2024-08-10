@@ -12,6 +12,8 @@ namespace ClinicAPI.Data
         public DbSet<TreatmentsModel> Treatments { get; set; }
         public DbSet<InvestigationModel> Investigations { get; set; }
         public DbSet<RadiologyModel> Radiology { get; set; }
+        public DbSet<DrugsModel> Drugs { get; set; }
+        public DbSet<DrugCategoryModel> DrugCategories { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RadiologyModel>()
@@ -34,36 +36,7 @@ namespace ClinicAPI.Data
             /*  modelBuilder.Entity<PatientModel>().Navigation(x => x.Visits).AutoInclude();
               modelBuilder.Entity<VisitModel>().Navigation(c => c.Treatments).AutoInclude();*/
 
-            modelBuilder.Entity<PatientModel>().HasData( new PatientModel
-       { Id=1,
-       FirstName= "Mohammed",
-      LastName= "Raid",
-      Gender= "Male",
-      Age=22,
-      Residence= "Baghdad",
-      Phone=123,
-      Weight=70,
-      Height= 180,
-      Medical= "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in elementum massa. Aliquam  r",
-      Surgical= "Lorem ipsum   , consectetur adipiscing elit. Integer in elementum massa. Aliquam elementum risus vitae   . Sed eu  tellus, eget lacinia",
-      Social="wfvbeuibwjebdjiwvbwjklvf",
-            });
-            modelBuilder.Entity<VisitModel>().HasData(new VisitModel 
-            { Id = 1,  
-            CC= "C.C details...",
-            Title = "Visit 1",
-            HPI= "HPI details",
-            Examination= "exam details",
-            PR= "PR details",
-            
-             PatientId = 1,
-
-
-
-
-
-
-            });
+       
            
             
           

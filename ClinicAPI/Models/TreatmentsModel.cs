@@ -15,6 +15,11 @@ namespace ClinicAPI.Models
         public string? Root { get; set; }
         public string? Time { get; set; }
         public string? Duration { get; set; }
+        public DateTime DateCreated { get; set; }
+        public TreatmentsModel()
+        {
+            DateCreated = DateTime.Now; // Default value for DateCreated
+        }
         public int PatientId { get; set; }
         [ForeignKey("PatientId")]
         public PatientModel? Patient { get; set; }

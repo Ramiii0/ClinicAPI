@@ -10,7 +10,8 @@ namespace ClinicAPI.Dtos
         public string HPI { get; set; }
         public string Examination { get; set; } = string.Empty;
         public string PR { get; set; } = string.Empty;
-        public string Radio { get; set; } = string.Empty;
+       
+        public string? ServiceFollow {  get; set; } 
         public DateTime VisitDate { get; set; } = DateTime.Now;
         public int PatientId { get; set; }
         public List<InvestigationDto> Investigation { get; set; }

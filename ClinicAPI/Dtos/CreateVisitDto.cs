@@ -7,8 +7,8 @@
         public string HPI { get; set; }
         public string Examination { get; set; } = string.Empty;
         public string PR { get; set; } = string.Empty;
-        public string Radio { get; set; } = string.Empty;
-        public int PatientId { get; set; }
         
+        public int PatientId { get; set; }
+        public string? ServiceFollow { get; set; }
     }
 }

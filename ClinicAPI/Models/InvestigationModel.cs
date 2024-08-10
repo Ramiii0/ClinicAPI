@@ -23,6 +23,11 @@ namespace ClinicAPI.Models
         public int D_DIMER { get; set; }
         public int WBC { get; set; }
         public int PatientId { get; set; }
+        public DateTime DateCreated { get; set; }
+        public InvestigationModel()
+        {
+            DateCreated = DateTime.Now; // Default value for DateCreated
+        }
         public PatientModel Patient { get; set; }
         
         public int VisitId { get; set; }    

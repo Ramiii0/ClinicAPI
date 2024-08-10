@@ -1,6 +1,7 @@
 ﻿using ClinicAPI.Data;
 using ClinicAPI.Dtos;
 using ClinicAPI.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ namespace ClinicAPI.Controllers
             _db = db;
         }
         [HttpPost]
+        [Authorize(Roles = "Analyzer,Doctor")]
         public async Task<IActionResult> CreateInvestigation([FromBody] CreateInvestigationDto investigationDto)
         {
             if( await _db.Patients.FirstOrDefaultAsync(x=>x.Id== investigationDto.PatientId)== null)

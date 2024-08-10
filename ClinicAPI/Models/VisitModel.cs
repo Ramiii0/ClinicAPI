@@ -12,8 +12,12 @@ namespace ClinicAPI.Models
         public string HPI { get; set; }
         public string Examination { get; set; } = string.Empty;
         public string PR { get; set; } = string.Empty;
-       
-        public DateTime VisitDate { get; set; } = DateTime.Now;
+        public string? ServiceFollow { get; set; }
+        public DateTime VisitDate { get; set; }
+        public VisitModel()
+        {
+            VisitDate = DateTime.Now; // Default value for DateCreated
+        }
         public int PatientId { get; set; }
         public PatientModel? Patient { get; set; }
         public List<RadiologyModel> Radiologies { get; set; }

@@ -17,7 +17,13 @@ namespace ClinicAPI.Models
         public string? Surgical { get; set; }
         public string?  Social { get; set; }
         public string? Photo { get; set; }
-       
+        public DateTime DateCreated { get; set; }
+        public PatientModel()
+        {
+            DateCreated = DateTime.Now; // Default value for DateCreated
+        }
+
+
         public List<VisitModel> Visits { get; set; }
        
         public List<TreatmentsModel> Treatments { get; set; }

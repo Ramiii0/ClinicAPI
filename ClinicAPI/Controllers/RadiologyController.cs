@@ -36,7 +36,7 @@ namespace ClinicAPI.Controllers
            
             var radiology = radiologyDto.ToCreateRadiology();
             var CreateImage = new SaveImage();
-            var path = await CreateImage.HandleImage(radiologyDto.Photo);
+            var path = await CreateImage.HandleImage(radiologyDto.Photo,"Imagea/Radio");
             if (path != null)
             {
                 radiology.Photo = path;
@@ -44,6 +44,19 @@ namespace ClinicAPI.Controllers
             await _db.Radiology.AddAsync(radiology);
           await  _db.SaveChangesAsync();
             return Ok(201);
+        }
+        [HttpGet("TypeCategory")]
+        public async Task<IActionResult> GetTypeCategory()
+        {
+           var categgory= await _db.Radiology.FindAsync(1);
+            if (categgory == null)
+            {
+                return NotFound();
+            }
+            
+            return Ok(categgory.TypeCategory);
+
+
         }
 
     }

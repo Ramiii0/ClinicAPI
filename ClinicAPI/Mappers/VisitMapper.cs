@@ -14,7 +14,7 @@ namespace ClinicAPI.Mappers
                 CC = model.CC,
                 Examination = model.Examination,
                 HPI = model.HPI,
-              
+              ServiceFollow = model.ServiceFollow,
                 PR = model.PR,
                 PatientId = model.PatientId,
             };
@@ -30,7 +30,7 @@ namespace ClinicAPI.Mappers
                 HPI = model.HPI,
                 PatientId = model.PatientId,
                 PR = model.PR,
-               
+                ServiceFollow = model.ServiceFollow,
                 Title = model.Title,
                 VisitDate = model.VisitDate,
                 Radiology=model.Radiologies.Select(x=>x.FilterRadiology()).Where(x => x.PatientId == model.PatientId).ToList(),

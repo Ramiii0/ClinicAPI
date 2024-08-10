@@ -16,6 +16,7 @@ namespace ClinicAPI.Mappers
                 Weight = model.Weight,
                 Residence = model.Residence,
                 Phone = model.Phone,
+                
                 Medical = model.Medical,
                 Social = model.Social,
                 Age = model.Age,    
@@ -42,6 +43,7 @@ namespace ClinicAPI.Mappers
                 Medical = model.Medical,
                 Social = model.Social,
                 Age = model.Age,
+                
                 Surgical = model.Surgical,
                 Photo = model.Photo,
                 Visits = model.Visits.Select(v => v.FilterVisit()).ToList(),

@@ -1,6 +1,7 @@
 ﻿using ClinicAPI.Data;
 using ClinicAPI.Dtos;
 using ClinicAPI.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,7 @@ namespace ClinicAPI.Controllers
         }
        
         [HttpPost]
+        
         public async Task<IActionResult> CreateTreatment([FromBody] CreateTreatmentDto dto)
         {
             if (await _db.Patients.FirstOrDefaultAsync(x => x.Id == dto.PatientId) == null)
@@ -36,5 +38,6 @@ namespace ClinicAPI.Controllers
             return Ok(201);
 
         }
+        
     }
 }

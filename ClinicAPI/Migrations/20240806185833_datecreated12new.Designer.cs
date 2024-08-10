@@ -4,6 +4,7 @@ using ClinicAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClinicAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240806185833_datecreated12new")]
+    partial class datecreated12new
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,51 +24,6 @@ namespace ClinicAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("ClinicAPI.Models.DrugCategoryModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CategoryName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DrugCategories");
-                });
-
-            modelBuilder.Entity("ClinicAPI.Models.DrugsModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DrugCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DrugName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DrugCategoryId");
-
-                    b.ToTable("Drugs");
-                });
 
             modelBuilder.Entity("ClinicAPI.Models.InvestigationModel", b =>
                 {
@@ -191,6 +149,24 @@ namespace ClinicAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Patients");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Age = 22,
+                            DateCreated = new DateTime(2024, 8, 6, 21, 58, 33, 215, DateTimeKind.Local).AddTicks(6827),
+                            FirstName = "Mohammed",
+                            Gender = "Male",
+                            Height = 180,
+                            LastName = "Raid",
+                            Medical = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in elementum massa. Aliquam  r",
+                            Phone = 123,
+                            Residence = "Baghdad",
+                            Social = "wfvbeuibwjebdjiwvbwjklvf",
+                            Surgical = "Lorem ipsum   , consectetur adipiscing elit. Integer in elementum massa. Aliquam elementum risus vitae   . Sed eu  tellus, eget lacinia",
+                            Weight = 70
+                        });
                 });
 
             modelBuilder.Entity("ClinicAPI.Models.RadiologyModel", b =>
@@ -214,10 +190,6 @@ namespace ClinicAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TypeCategory")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("VisitId")
@@ -325,17 +297,19 @@ namespace ClinicAPI.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("Visits");
-                });
 
-            modelBuilder.Entity("ClinicAPI.Models.DrugsModel", b =>
-                {
-                    b.HasOne("ClinicAPI.Models.DrugCategoryModel", "DrugCategory")
-                        .WithMany("Drugs")
-                        .HasForeignKey("DrugCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DrugCategory");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CC = "C.C details...",
+                            Examination = "exam details",
+                            HPI = "HPI details",
+                            PR = "PR details",
+                            PatientId = 1,
+                            Title = "Visit 1",
+                            VisitDate = new DateTime(2024, 8, 6, 21, 58, 33, 215, DateTimeKind.Local).AddTicks(6935)
+                        });
                 });
 
             modelBuilder.Entity("ClinicAPI.Models.InvestigationModel", b =>
@@ -403,11 +377,6 @@ namespace ClinicAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Patient");
-                });
-
-            modelBuilder.Entity("ClinicAPI.Models.DrugCategoryModel", b =>
-                {
-                    b.Navigation("Drugs");
                 });
 
             modelBuilder.Entity("ClinicAPI.Models.PatientModel", b =>
