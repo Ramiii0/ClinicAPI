@@ -8,6 +8,7 @@ namespace ClinicAPI.Dtos
         public string? LastName { get; set; }
         public int? Age { get; set; }
         public string? Gender { get; set; }
+        //comment
         public string? Residence { get; set; }
         public int? Phone { get; set; }
         public IFormFile? Photo { get; set; }
