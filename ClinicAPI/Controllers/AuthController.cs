@@ -74,8 +74,8 @@ namespace ClinicAPI.Controllers
                     {
                         var roles = await _userManager.GetRolesAsync(user);
                         var token = GenerateJwtToken(user, roles);
-                        SetJwtTokenCookie(token);
-                        return Ok(new { Message = "Login successful" });
+                       
+                        return Ok(new{ token});
                     }
                 }
                 return Unauthorized(new { Message = "Invalid login attempt." });

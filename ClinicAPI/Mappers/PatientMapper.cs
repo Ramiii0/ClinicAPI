@@ -17,6 +17,7 @@ namespace ClinicAPI.Mappers
                 Residence = model.Residence,
                 Phone = model.Phone,
                 
+                
                 Medical = model.Medical,
                 Social = model.Social,
                 Age = model.Age,    

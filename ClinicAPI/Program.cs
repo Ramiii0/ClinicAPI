@@ -19,7 +19,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins", builder =>
     {
-        builder.WithOrigins("http://localhost:3000") // Your front-end origin
+        builder.WithOrigins("http://localhost:3000", "http://192.168.88.23:3000") // Your front-end origin
                .AllowAnyHeader()
                .AllowAnyMethod()
                .AllowCredentials();
@@ -146,7 +146,7 @@ builder.Services.AddSwaggerGen(c =>
 
 
 var app = builder.Build();
-if(!RunOnceOnStartup())
+if(!CheckValidation())
 {
     Console.WriteLine("RabbitJump error");  // Print the custom error message
     Environment.Exit(1);
@@ -175,7 +175,7 @@ app.MapControllers();
 
 app.Run();
 
-bool RunOnceOnStartup()
+static bool CheckValidation()
 {
     string c= RabbitJump.GetCpuId();
     

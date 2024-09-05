@@ -35,8 +35,8 @@ namespace ClinicAPI.Controllers
            
            
             var radiology = radiologyDto.ToCreateRadiology();
-            var CreateImage = new SaveImage();
-            var path = await CreateImage.HandleImage(radiologyDto.Photo,"Imagea/Radio");
+           
+            var path = await SaveImage.HandleImage(radiologyDto.Photo,"/Radio");
             if (path != null)
             {
                 radiology.Photo = path;
@@ -58,6 +58,9 @@ namespace ClinicAPI.Controllers
 
 
         }
-
+        public class AddTypeCategory
+        {
+            public string? Name { get; set; }
+        }
     }
 }

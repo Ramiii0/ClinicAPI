@@ -14,6 +14,8 @@ namespace ClinicAPI.Data
         public DbSet<RadiologyModel> Radiology { get; set; }
         public DbSet<DrugsModel> Drugs { get; set; }
         public DbSet<DrugCategoryModel> DrugCategories { get; set; }
+        public DbSet<InvestigationType> InvestigationTypes { get; set; }
+        public DbSet<RadioTypeCategory> RadioTypeCategory { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RadiologyModel>()

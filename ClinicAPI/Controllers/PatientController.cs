@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace ClinicAPI.Controllers
 {
@@ -19,18 +20,20 @@ namespace ClinicAPI.Controllers
         {
             _db = db;
         }
-        [HttpGet]
-        
-        
+       [HttpGet]
         
         public async Task<IActionResult> GetAll()
         {
             var patients = await _db.Patients.OrderByDescending(i => i.DateCreated).ToListAsync();
+            if (patients == null)
+            {
+                return NotFound();
+            }
             return Ok(patients);
         }
         [HttpGet("id")]
-       
 
+       
 
         public async Task<IActionResult> GetOne(int id)
         {
@@ -38,15 +41,27 @@ namespace ClinicAPI.Controllers
                 .Include(m=>m.Visits).ThenInclude(p=>p.Investigation)
                  .Include(m => m.Visits).ThenInclude(p => p.Radiologies)
                 .FirstOrDefaultAsync(x => x.Id == id);
+            var photo = patient.Photo;
+            var baseDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            
+
 
             if (patient == null)
             {
                 return NotFound();
             }
-            var dto = patient.FilterPatient();
+           var patientDto = patient.FilterPatient();
+            if (System.IO.File.Exists(photo))
+            {
+                patientDto.ImageData = System.IO.File.ReadAllBytes(photo);
+            }
+            
+                
+            
+              
 
 
-            return Ok(dto);
+            return Ok(patientDto);
 
 
 
@@ -56,9 +71,9 @@ namespace ClinicAPI.Controllers
         public async Task<IActionResult> Create([FromForm]  CreatePatientDto patientDto)
         {
             var patient = patientDto.ToCreatePatientDto();
-            var CreateImage = new SaveImage();
+            
            
-            var Path= await  CreateImage.HandleImage(patientDto.Photo,"Images/Patients");
+            var Path= await  SaveImage.HandleImage(patientDto.Photo,"Patients");
             if (Path != null)
             {
                 patient.Photo = Path;
@@ -75,21 +90,56 @@ namespace ClinicAPI.Controllers
             {
                 return NotFound();
             }
-            patient.FirstName = model.FirstName;
-            patient.LastName = model.LastName;
-            patient.Age = model.Age;
-            patient.Gender = model.Gender;
+            if (model.FirstName != null)
+            {
+                patient.FirstName = model.FirstName;
+            }
             
-            patient.Medical = model.Medical;
-          
-            patient.Weight = model.Weight;
-            patient.Height = model.Height;
-            patient.Social = model.Social;
-            patient.Surgical = model.Surgical; 
-            patient.Residence = model.Residence;
+            if (model.LastName != null)
+            {
+                patient.LastName = model.LastName;
 
-           await _db.SaveChangesAsync();
-            return Ok(patient);
+            }
+            if (model.Age != null)
+            {
+                patient.Age = model.Age;
+            }
+            if (model.Gender != null)
+            {
+                patient.Gender = model.Gender;
+            }
+
+            if (model.Medical != null)
+            {
+                patient.Medical = model.Medical;
+            }
+
+            if (model.Weight != null)
+            {
+                patient.Weight = model.Weight;
+            }
+            if (model.Height != null)
+            {
+                patient.Height = model.Height;
+            }
+            if (model.Social != null)
+            {
+                patient.Social = model.Social;
+            }
+
+            if (model.Surgical   != null)
+            {
+                patient.Surgical = model.Surgical;
+            }
+            if (model.Residence != null)
+            {
+                patient.Residence = model.Residence;
+            }
+            
+            
+
+            await _db.SaveChangesAsync();
+            return Ok(" updated");
 
 
 
