@@ -20,6 +20,7 @@ namespace ClinicAPI.Controllers
         }
        
         [HttpPost]
+        [Authorize]
         
         public async Task<IActionResult> CreateTreatment([FromBody] CreateTreatmentDto dto)
         {
@@ -38,6 +39,47 @@ namespace ClinicAPI.Controllers
             return Ok(201);
 
         }
-        
+        [HttpPut("id")]
+        [Authorize]
+        public async Task<IActionResult> UpdateTreatment([FromBody] CreateTreatmentDto dto, int id)
+        {
+            var treatmentsModel=await _db.Treatments.FindAsync( id);
+            if (treatmentsModel == null)
+            {
+                return NotFound();
+            }
+            if (dto.Drug != null)
+               { treatmentsModel.Drug = dto.Drug; }
+            if (dto.Root != null)
+                { treatmentsModel.Root = dto.Root; }
+            if (dto.Category != null)
+               { treatmentsModel.Category = dto.Category; }
+            if (dto.SubCategory != null)
+                { treatmentsModel.SubCategory = dto.SubCategory; }
+            if (dto.Frequency != null)
+               { treatmentsModel.Frequency = dto.Frequency; }
+            if (dto.Dose != null)
+               { treatmentsModel.Dose = dto.Dose; }
+            if (dto.Duration != null)
+              { treatmentsModel.Duration = dto.Duration; }
+            await _db.SaveChangesAsync();
+            return Ok("updated successfuly");
+
+        }
+        [HttpDelete("id")]
+        [Authorize]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var treat = await _db.Treatments.FindAsync(id);
+            if (treat == null)
+            {
+                return NotFound();
+            }
+            _db.Treatments.Remove(treat);
+          await  _db.SaveChangesAsync();
+            return NoContent();
+        }
+
+
     }
 }

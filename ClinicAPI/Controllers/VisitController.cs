@@ -1,6 +1,7 @@
 ﻿using ClinicAPI.Data;
 using ClinicAPI.Dtos;
 using ClinicAPI.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -33,7 +34,7 @@ namespace ClinicAPI.Controllers
         {
             if (await _db.Patients.FirstOrDefaultAsync(x => x.Id == visitDto.PatientId) == null)
             {
-                return BadRequest("Patient Doesnt exist");
+                return NotFound("Patient Doesnt exist");
 
             }
            
@@ -43,10 +44,45 @@ namespace ClinicAPI.Controllers
             return Ok(visit);
 
         }
-       /* [HttpPut("id")]
-        public IActionResult AddInvestigationToVisit(int id)
+        [HttpPut("id")]
+        [Authorize]
+        public async Task<IActionResult> UpdateVisit([FromBody] UpdateVisitDto visitDto, int id)
         {
-            var visit
-        }*/
+            var visit = await _db.Visits.FindAsync(id);
+            if (visit == null)
+            {
+                return NotFound();
+            }
+
+            if (visitDto.HPI != null)
+            { visit.HPI = visitDto.HPI; }
+            if (visitDto.CC != null)
+            { visit.CC = visitDto.CC; }
+            if (visitDto.PR != null)
+            { visit.PR = visitDto.PR; }
+            if (visitDto.ServiceFollow != null)
+            { visit.ServiceFollow = visitDto.ServiceFollow; }
+            if (visitDto.Title != null)
+            { visit.Title = visitDto.Title; }
+            if (visitDto.Examination != null)
+            { visit.Examination = visitDto.Examination; }
+          await  _db.SaveChangesAsync();
+            return Ok("updated");
+        
+        }
+        [HttpDelete("id")]
+        [Authorize(Roles = "Doctor")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var visit = await _db.Visits.FindAsync(id);
+            if (visit == null)
+            {
+                return NotFound();
+
+            }
+            _db.Remove(visit);
+          await  _db.SaveChangesAsync();
+            return NoContent();
+        }
     }
 }

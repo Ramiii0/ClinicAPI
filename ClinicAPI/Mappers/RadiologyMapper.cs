@@ -1,4 +1,5 @@
-﻿using ClinicAPI.Dtos;
+﻿using ClinicAPI.Controllers;
+using ClinicAPI.Dtos;
 using ClinicAPI.Models;
 using static ClinicAPI.Controllers.RadiologyController;
 

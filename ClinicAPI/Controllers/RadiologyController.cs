@@ -1,6 +1,7 @@
 ﻿using ClinicAPI.Data;
 using ClinicAPI.Dtos;
 using ClinicAPI.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +37,7 @@ namespace ClinicAPI.Controllers
            
             var radiology = radiologyDto.ToCreateRadiology();
            
-            var path = await SaveImage.HandleImage(radiologyDto.Photo,"/Radio");
+            var path = await SaveImage.HandleImage(radiologyDto.Photo,"Radio");
             if (path != null)
             {
                 radiology.Photo = path;
@@ -48,19 +49,60 @@ namespace ClinicAPI.Controllers
         [HttpGet("TypeCategory")]
         public async Task<IActionResult> GetTypeCategory()
         {
-           var categgory= await _db.Radiology.FindAsync(1);
+           var categgory= await _db.RadioTypeCategory.ToListAsync();
             if (categgory == null)
             {
                 return NotFound();
             }
             
-            return Ok(categgory.TypeCategory);
+            return Ok(categgory);
 
 
         }
-        public class AddTypeCategory
+        [HttpPost("addcategorytype")]
+        
+        public async Task<IActionResult> AddTypeCAtegory([FromBody] AddTypeCategory dto)
         {
-            public string? Name { get; set; }
+            var create = dto.ToCreateRadiologyCAtegory();
+            _db.RadioTypeCategory.AddAsync(create);
+            await _db.SaveChangesAsync();
+            return Ok("Added successfully");
         }
+        [HttpDelete("id")]
+        
+        public async Task<IActionResult> Delete(int id)
+        {
+            var category = await _db.Radiology.FindAsync(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            _db.Remove(category);
+            await _db.SaveChangesAsync();
+            return Ok(204);
+        }
+        [HttpPut("id")]
+       
+        public async Task<IActionResult> Update(int id, [FromBody] CreateRadiologyDto model)
+        {
+            var radio = await _db.Radiology.FindAsync(id);
+            if (radio == null)
+            {
+                return NotFound();
+            }
+            if (model.Type != null)
+               { radio.Type = model.Type; }
+            if (model.Description != null)
+            { radio.Description = model.Description; }
+             await _db.SaveChangesAsync();
+            return Ok("updated successfuly");
+
+        }
+
+
+    }
+    public class AddTypeCategory
+    {
+        public string? Name { get; set; }
     }
 }
